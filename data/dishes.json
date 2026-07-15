@@ -1,1 +1,146 @@
-[]
+[
+  {
+    "id": 1,
+    "shop_id": 1,
+    "shop_name": "聪明面馆",
+    "name": "自选汤粉",
+    "price": 9.0,
+    "rating": 4,
+    "meal_types": [
+      "早",
+      "午",
+      "晚"
+    ],
+    "category": "主食",
+    "notes": "选底(米粉/粿条/河粉)+配料(枸杞叶/紫菜/金针菇/番茄/瘦肉/丸子)",
+    "calories_est": 400,
+    "created_at": "2026-07-15T16:44:00"
+  },
+  {
+    "id": 2,
+    "shop_id": 1,
+    "shop_name": "聪明面馆",
+    "name": "炒面",
+    "price": 10.0,
+    "rating": 4,
+    "meal_types": [
+      "午",
+      "晚"
+    ],
+    "category": "主食",
+    "notes": "",
+    "calories_est": 450,
+    "created_at": "2026-07-15T16:44:00"
+  },
+  {
+    "id": 3,
+    "shop_id": 1,
+    "shop_name": "聪明面馆",
+    "name": "皮蛋瘦肉粥",
+    "price": 8.0,
+    "rating": 4,
+    "meal_types": [
+      "早"
+    ],
+    "category": "主食",
+    "notes": "",
+    "calories_est": 200,
+    "created_at": "2026-07-15T16:44:00"
+  },
+  {
+    "id": 4,
+    "shop_id": 2,
+    "shop_name": "食堂一楼",
+    "name": "鸭腿",
+    "price": 6.0,
+    "rating": 4,
+    "meal_types": [
+      "午",
+      "晚"
+    ],
+    "category": "肉菜",
+    "notes": "",
+    "calories_est": 300,
+    "created_at": "2026-07-15T16:44:00"
+  },
+  {
+    "id": 5,
+    "shop_id": 2,
+    "shop_name": "食堂一楼",
+    "name": "小炒肉",
+    "price": 6.0,
+    "rating": 4,
+    "meal_types": [
+      "午",
+      "晚"
+    ],
+    "category": "肉菜",
+    "notes": "",
+    "calories_est": 350,
+    "created_at": "2026-07-15T16:44:00"
+  },
+  {
+    "id": 6,
+    "shop_id": 2,
+    "shop_name": "食堂一楼",
+    "name": "青菜",
+    "price": 2.0,
+    "rating": 3,
+    "meal_types": [
+      "午",
+      "晚"
+    ],
+    "category": "素菜",
+    "notes": "",
+    "calories_est": 40,
+    "created_at": "2026-07-15T16:44:00"
+  },
+  {
+    "id": 7,
+    "shop_id": 3,
+    "shop_name": "压3饭馆",
+    "name": "辣子鸡",
+    "price": 6.0,
+    "rating": 4,
+    "meal_types": [
+      "午",
+      "晚"
+    ],
+    "category": "肉菜",
+    "notes": "",
+    "calories_est": 380,
+    "created_at": "2026-07-15T16:44:00"
+  },
+  {
+    "id": 8,
+    "shop_id": 3,
+    "shop_name": "压3饭馆",
+    "name": "口水鸡",
+    "price": 6.0,
+    "rating": 4,
+    "meal_types": [
+      "午",
+      "晚"
+    ],
+    "category": "肉菜",
+    "notes": "",
+    "calories_est": 350,
+    "created_at": "2026-07-15T16:44:00"
+  },
+  {
+    "id": 9,
+    "shop_id": 3,
+    "shop_name": "压3饭馆",
+    "name": "煎蛋",
+    "price": 2.0,
+    "rating": 3,
+    "meal_types": [
+      "午",
+      "晚"
+    ],
+    "category": "素菜",
+    "notes": "",
+    "calories_est": 90,
+    "created_at": "2026-07-15T16:44:00"
+  }
+]
