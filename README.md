@@ -13,7 +13,10 @@
 <p align="center">
   <kbd>&nbsp;Python 3.9+&nbsp;</kbd>
   <kbd>&nbsp;DeepSeek&nbsp;</kbd>
-  <kbd>&nbsp;零成本&nbsp;</kbd>
+  <kbd>&nbsp;豆包&nbsp;</kbd>
+  <kbd>&nbsp;通义千问&nbsp;</kbd>
+  <kbd>&nbsp;任意模型&nbsp;</kbd>
+  <kbd>&nbsp;无需 API&nbsp;</kbd>
 </p>
 
 <br>
@@ -70,7 +73,7 @@
 ## 快 速 上 手
 
 <p>
-<b>唯一依赖</b> &nbsp; Python 3.9+ &nbsp;·&nbsp; AI 推理由 WorkBuddy 内置模型完成，<b>无需任何外部 API</b>
+<b>唯一依赖</b> &nbsp; Python 3.9+ &nbsp;·&nbsp; AI 推理跟随 WorkBuddy 当前模型（DeepSeek / 豆包 / 通义千问均可），<b>无需 API Key</b>
 </p>
 
 ```bash
