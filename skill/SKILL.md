@@ -28,9 +28,8 @@ author: 俞玄康
 
 ## 前置依赖
 
-- Python 3.9+
-- pip install openai  (或其他LLM客户端)
-- 任一免费大模型API（豆包/DeepSeek/通义千问，学生免费额度完全够用）
+- Python 3.9+（脚本用）
+- 安装到 WorkBuddy 后，AI 推理由 WorkBuddy 内置模型（DeepSeek）直接完成，**无需额外 API**
 
 ## 使用方法
 

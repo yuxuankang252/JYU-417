@@ -70,24 +70,19 @@
 ## 快 速 上 手
 
 <p>
-<b>环境</b> &nbsp; Python 3.9+ &nbsp;·&nbsp; 可选 LLM Key（DeepSeek / 豆包 / 通义千问，学生免费额度够用）
+<b>唯一依赖</b> &nbsp; Python 3.9+ &nbsp;·&nbsp; AI 推理由 WorkBuddy 内置模型完成，<b>无需任何外部 API</b>
 </p>
 
 ```bash
-# 第一步 告诉 AI 你的情况
-python skill/scripts/meal_planner.py profile set
+# 方式一 WorkBuddy · 直接对话（推荐）
+@meal-planner 帮我推荐明天吃什么
 
-# 第二步 录 入 你 常 去 的 店
-python skill/scripts/meal_planner.py shop add
-
-# 第三步 录 入 每 家 店 好 吃 的 菜
-python skill/scripts/meal_planner.py dish add
-
-# 第四步 每 天 记 录 吃 了 什 么
-python skill/scripts/meal_planner.py log
-
-# 第五步 让 AI 推 荐 明 天 吃 什 么
-python skill/scripts/meal_planner.py recommend
+# 方式二 命令行（数据自己管，推荐由你对话告诉我）
+python skill/scripts/meal_planner.py profile set   # 画像
+python skill/scripts/meal_planner.py shop add      # 加店
+python skill/scripts/meal_planner.py dish add      # 加菜
+python skill/scripts/meal_planner.py log           # 记饮食
+python skill/scripts/meal_planner.py recommend     # 推荐（AI通过对话完成）
 ```
 
 <br>
@@ -160,7 +155,7 @@ python skill/scripts/meal_planner.py recommend
 │   ├── scripts/
 │   │   └── meal_planner.py            核心脚本 · ~600 行
 │   └── references/
-│       └── api_examples.md            LLM API 配置参考
+│       └── api_examples.md            独立运行参考
 ├── data/                              数据存储 · JSON
 │   ├── profile.json                   用户画像
 │   ├── shops.json                     店铺列表
