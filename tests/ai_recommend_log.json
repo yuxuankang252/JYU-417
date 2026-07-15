@@ -1,0 +1,27 @@
+{
+  "date": "2026-07-15",
+  "recommend_for": "2026-07-16",
+  "engine": "WorkBuddy AI (DeepSeek)",
+  "result": {
+    "breakfast": {
+      "shop": "聪明面馆",
+      "dish": "皮蛋瘦肉粥",
+      "price": 8,
+      "reason": "粤式清淡暖胃，符合口味偏好"
+    },
+    "lunch": {
+      "shop": "压3饭馆",
+      "dish": "口水鸡+煎蛋",
+      "price": 8,
+      "reason": "偶尔辣偏好，蛋白质补充"
+    },
+    "dinner": {
+      "shop": "食堂一楼",
+      "dish": "鸭腿+青菜",
+      "price": 8,
+      "reason": "肉菜均衡，晚餐不腻"
+    },
+    "total": 24,
+    "nutrition_note": "980kcal偏低，建议饿时加量"
+  }
+}
