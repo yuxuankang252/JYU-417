@@ -81,9 +81,12 @@ meal-planner/
 │   ├── dishes.json                     # 菜品库
 │   └── history.json                    # 饮食历史
 ├── tests/
-│   └── test_log.md                     # 测试记录
+│   ├── test_record.md                   # 测试记录 (含截图证据)
+│   ├── ai_recommend_log.json            # AI推荐日志
+│   ├── screenshot_recommend_table.png   # 截图1: 8元预算推荐
+│   └── screenshot_data_cleanup.png      # 截图2: 数据清理决策
 └── iteration/
-    └── upgrade_plan.md                 # 迭代升级说明 (3个方向)
+    └── iteration_log.md                 # 迭代升级说明 (5个方向)
 ```
 
 ## 使用数据
