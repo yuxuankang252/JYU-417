@@ -1,0 +1,12 @@
+{
+  "name": "俞玄康",
+  "height_cm": 175,
+  "weight_kg": 68,
+  "goal": "维持",
+  "budget_per_meal": 25,
+  "allergies": [],
+  "preferences": ["粤菜", "清淡", "偶尔辣"],
+  "dislikes": ["苦瓜", "芹菜", "太甜的"],
+  "target_calories": 2100,
+  "schedule": {"早餐": "07:30", "午餐": "12:00", "晚餐": "18:30"}
+}
