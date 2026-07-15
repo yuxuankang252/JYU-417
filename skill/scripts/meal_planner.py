@@ -482,15 +482,37 @@ def cmd_log():
 
         meals[meal_type] = chosen
 
-    # 计算统计
+    # 计算统计 + 自评好吃程度
     total_cal = 0
     total_cost = 0
+    taste_ratings = {}  # {dish_id: rating 1-5}
+
+    print("\n  === 自评好吃程度 (1=踩雷 5=超好吃) ===")
+    all_dish_ids = []
     for meal_type, dish_ids in meals.items():
         for did in dish_ids:
-            d = next((d for d in dishes if d["id"] == did), None)
-            if d:
-                total_cal += d.get("calories_est", 450)
-                total_cost += d["price"]
+            if did not in taste_ratings:
+                all_dish_ids.append(did)
+                d = next((di for di in dishes if di["id"] == did), None)
+                if d:
+                    total_cal += d.get("calories_est", 450)
+                    total_cost += d["price"]
+
+    for did in all_dish_ids:
+        d = next((di for di in dishes if di["id"] == did), None)
+        if d:
+            while True:
+                rating = input(f"  {d['shop_name']} - {d['name']} 好吃吗? (1-5, 回车=跳过): ").strip()
+                if not rating:
+                    break
+                try:
+                    r = int(rating)
+                    if 1 <= r <= 5:
+                        taste_ratings[str(did)] = r
+                        break
+                    print("    请输入1-5之间的数字")
+                except ValueError:
+                    print("    请输入数字")
 
     profile = load_profile()
 
@@ -498,6 +520,7 @@ def cmd_log():
         "meals": meals,
         "total_calories": total_cal,
         "total_cost": total_cost,
+        "taste_ratings": taste_ratings,
         "recorded_at": datetime.now().isoformat(),
     }
     save_history(history)
@@ -540,7 +563,9 @@ def cmd_log_today():
             for did in dish_ids:
                 d = next((d for d in dishes if d["id"] == did), None)
                 if d:
-                    print(f"    {d['shop_name']} - {d['name']}  ¥{d['price']}")
+                    taste = record.get("taste_ratings", {}).get(str(did), "")
+                    taste_str = f" ★{taste}" if taste else ""
+                    print(f"    {d['shop_name']} - {d['name']}  ¥{d['price']}{taste_str}")
         else:
             print(f"  [{meal_type}] 未记录")
 
@@ -574,12 +599,21 @@ def build_recommendation_context(profile, history, dishes):
         for meal_type, dish_ids in record.get("meals", {}).items():
             recent_dish_ids.extend(dish_ids)
 
-    # 统计各菜品出现频率
+    # 统计各菜品出现频率 + 自评口味均值
     dish_freq = {}
+    dish_taste = {}  # {dish_id: [ratings]}
     for day_str, record in recent_days:
+        taste_ratings = record.get("taste_ratings", {})
         for meal_type, dish_ids in record.get("meals", {}).items():
             for did in dish_ids:
                 dish_freq[did] = dish_freq.get(did, 0) + 1
+                if str(did) in taste_ratings:
+                    dish_taste.setdefault(did, []).append(taste_ratings[str(did)])
+
+    # 计算自评均值
+    dish_taste_avg = {}
+    for did, ratings in dish_taste.items():
+        dish_taste_avg[did] = round(sum(ratings) / len(ratings), 1)
 
     # 格式化菜品列表
     dish_list = []
@@ -623,6 +657,7 @@ def build_recommendation_context(profile, history, dishes):
         "recent_7d_avg_cal": avg_recent_cal,
         "recent_dish_ids": recent_dish_ids,
         "dish_freq_7d": dish_freq,
+        "dish_taste_avg": dish_taste_avg,  # 自评口味均值
     }
     return context
 
@@ -646,7 +681,7 @@ def ai_recommend(profile, history, dishes):
 4. 每餐控制在用户预算之内
 5. 避开用户忌口和不喜欢的食材
 6. 尽量保证营养均衡(碳水、蛋白质、蔬菜搭配)
-7. 优先推荐用户评分高的菜
+7. 优先推荐用户评分高的菜，尤其注意"自评"口味分——这是用户亲自吃过后给出的评价，比初始星级更可靠
 8. 早餐推荐适合早餐的菜(meal_types含"早")
 
 输出格式要求(严格遵循)：
@@ -678,7 +713,10 @@ def ai_recommend(profile, history, dishes):
     for d in ctx["dishes"]:
         eaten = " [最近吃过]" if d["recently_eaten"] else ""
         freq_info = f" (7天吃了{d['freq_7d']}次)" if d["freq_7d"] > 0 else ""
-        user_prompt += f"#{d['id']} [{d['shop']}] {d['name']} ¥{d['price']} {d['stars']} {d['meal_types']} ~{d['calories']}kcal [{d['category']}]{eaten}{freq_info}\n"
+        taste_info = ""
+        if d["id"] in ctx.get("dish_taste_avg", {}):
+            taste_info = f" [自评★{ctx['dish_taste_avg'][d['id']]}]"
+        user_prompt += f"#{d['id']} [{d['shop']}] {d['name']} ¥{d['price']} {d['stars']} {d['meal_types']} ~{d['calories']}kcal [{d['category']}]{eaten}{freq_info}{taste_info}\n"
         if d["notes"]:
             user_prompt += f"  备注: {d['notes']}\n"
 
@@ -726,12 +764,17 @@ def offline_recommend(profile, history, dishes):
     if not fresh_ld:
         fresh_ld = lunch_dinner
 
-    # 按评分排序
+    # 按评分排序（含自评口味加成）
+    taste_avg = ctx.get("dish_taste_avg", {})
     def sort_by_rating(lst):
-        rated = [d for d in lst if d["rating"] >= 4]
-        if rated:
-            return sorted(rated, key=lambda x: (-x["rating"], x["price"]))
-        return sorted(lst, key=lambda x: (-x["rating"], x["price"]))
+        # 综合分 = 初始评分 + 自评口味加成（自评5星加0.5, 1星减0.5）
+        for d in lst:
+            ta = taste_avg.get(d["id"], 0)
+            if ta:
+                d["composite_score"] = d["rating"] + (ta - 3) * 0.25
+            else:
+                d["composite_score"] = d["rating"]
+        return sorted(lst, key=lambda x: (-x["composite_score"], x["price"]))
 
     sorted_bf = sort_by_rating(fresh_bf)
     sorted_ld = sort_by_rating(fresh_ld)
